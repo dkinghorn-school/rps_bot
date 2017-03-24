@@ -1,5 +1,5 @@
 {
-    "_id" : ObjectId("58d494e7fe7489ccad493a52"),
+    "_id" : "58d494e7fe7489ccad493a52",
     "player1" : "Alyssa",
     "player2" : "matt",
     "socket1" : "ZRt0S8q4MlRGtfMFAAAC",
@@ -222,5 +222,5 @@
         "player1" : "",
         "player2" : "rock"
     },
-    "created_on" : ISODate("2017-03-24T03:39:19.783Z")
+    "created_on" : "2017-03-24T03:39:19.783Z"
 }
