@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""
+This currently only uses SVMBot, but another bot could probably be put in
+just fine.
+"""
 
 import json
 
@@ -30,7 +34,7 @@ def main():
         instances.append(instance)
     # Train the model
     bot = SVMBot()
-    bot.fit(instances)
+    bot.train(instances)
     i = len(player_throws)-n-1
     my_throws = player_throws[i:i+n]
     other_throws = opp_throws[i:i+n]

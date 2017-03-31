@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-"""Runs a basic rock-paper-scissors bot"""
+"""Runs a basic SVM rock-paper-scissors bot"""
 
 import numpy as np
 from sklearn import svm
 
 
 def convert_throw(throw_str):
-    """Returns a one-hot representation of a throw"""
+    """Return a one-hot representation of a throw"""
     if throw_str == 'rock':
         converted_throw = [1, 0, 0]
     elif throw_str == 'paper':
@@ -19,7 +19,7 @@ def convert_throw(throw_str):
 
 
 def one_hot(throws):
-    """Returns a one-hot representation of the data"""
+    """Return a one-hot representation of the data"""
     one_hot_arr = []
     for throw in throws:
         one_hot_arr.extend(convert_throw(throw[0]))
@@ -34,9 +34,9 @@ class SVMBot:
                                   decision_function_shape='ovr')
         self.players = []
 
-    def fit(self, instances):
+    def train(self, instances):
         """
-        Fits the Bot's classifier
+        Train the Bot's classifier
         :param instances: The instances to train on.
         :type instances: [{'output': str,
                            'player_name': str,
@@ -64,7 +64,7 @@ class SVMBot:
 
     def predict(self, inst):
         """
-        Predicts the probabilities of the next value the other player will play
+        Predict the probabilities of the next value the other player will play
         :param inst: The instance
         :type inst: {'player_name': str
                          'previous_throws': {'opponents_throws': [str, ..., str],
