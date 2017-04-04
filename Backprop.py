@@ -100,7 +100,7 @@ class Backprop:
     #print rows
     return rows
 
-  def Train(self, Instances):
+  def train(self, Instances):
     labels = self.getLabelsAsArray(Instances)
     features = self.getFeaturesAsArray(Instances)
     print type(features)
@@ -120,13 +120,13 @@ class Backprop:
     newModel.fit(features, labels)
     self.model = newModel
 
-  def Predict(self, instance):
+  def predict(self, instance):
     features = self.getFeaturesAsArray(instance)
     answer = self.model.predict(features[1])
     print answer
     return {"rock":answer[0,0],"paper":answer[0,1],"scissors":answer[0,2]}
 
-  def Test(self):
+  def test(self):
     self.Train(self.TestInstances)
     prediction = self.Predict(self.TestInstances)
     print "\nTestResults:\n"

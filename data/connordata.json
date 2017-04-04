@@ -1,4 +1,4 @@
-{
+[{
 	"_id" : "58d4711989bef95a038b3ad9",
 	"player1" : "Kirsten",
 	"player2" : "Connor",
@@ -214,3 +214,4 @@
 	},
 	"created_on" : "2017-03-24T01:06:33.083Z"
 }
+]
