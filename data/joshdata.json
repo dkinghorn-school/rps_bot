@@ -1,4 +1,4 @@
-{ "_id": "58d532f860f7ff23d942b4d2",
+[{ "_id": "58d532f860f7ff23d942b4d2",
   "player1": "Jasmine",
   "player2": "Joshua",
   "socket1": "UONGE4WznmfnfKCKAAAI",
@@ -123,3 +123,4 @@
   "nextThrow": { "player1": "rock", "player2": "scissors" },
   "created_on": "2017-03-24T14:53:44.247Z" }
 
+]
