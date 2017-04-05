@@ -24,11 +24,24 @@ class Controller():
         for model in models:
             instances = instances + self.get_instances(model)
         random.shuffle(instances)
-
+        testSet = self.getTestSet(instances, testSetPercentage)
+        instances = self.getInstances(instances, testSetPercentage)
         self.instances = instances
         self.model.train(self.instances)
         #TODO test
-        
+    def getTestSet(self, instances, testPercent):
+        test = []
+        length = len(instances)
+        min = testPercent * length
+        for x in range (int(min), length):
+            test.append(instances[x])
+        return test
+    def getInstances(self, instances, testPercent):
+        length = len(instances)
+        min = testPercent * length
+        for x in range(int(min), length):
+            instances.pop()
+        return instances
     def get_single_instance(self, index, opponents_throws, my_throws, my_name):
         """
         index is the point of the last turn thrown, the output will be at one greater than the index
