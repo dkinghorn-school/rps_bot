@@ -3,4 +3,4 @@ from naive_bayes import naive_bayes
 
 controller = Controller(naive_bayes())
 
-controller.train()
+controller.train(.3)

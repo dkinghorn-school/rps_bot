@@ -1,6 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 import json
+import random
 
 class Controller():
     def __init__(self, model, history_length=5):
@@ -8,7 +9,7 @@ class Controller():
         self.history_length = 5
         print('starting classifier')
 
-    def train(self, file_name=None):
+    def train(self, testSetPercentage, file_name=None):
         path = 'data'
         if file_name is not None:
             files = [file_name]
@@ -22,8 +23,11 @@ class Controller():
         instances = []
         for model in models:
             instances = instances + self.get_instances(model)
+        # random.shuffle(instances)
+
         self.instances = instances
         self.model.train(self.instances)
+        print 'hello'
         #TODO test
         
     def get_single_instance(self, index, opponents_throws, my_throws, my_name):

@@ -15,15 +15,15 @@ class naive_bayes:
         print(predicted)
 
     def getLabelsAsArray(self, instances):
-        labels = np.zeros((len(instances), 1))
+        labels = np.zeros((len(instances)))
 
         for x in xrange(0, len(instances)):
             if instances[x]["output"] == "rock":
-                labels[x, 0] = 0
+                labels[x] = 0
             elif instances[x]["output"] == "paper":
-                labels[x, 0] = 1
+                labels[x] = 1
             elif instances[x]["output"] == "scissors":
-                labels[x, 0] = 2
+                labels[x] = 2
             else:
                 print "ERROR! Label other than 'rock', 'paper', or 'scissors' encountered!"
         return labels
