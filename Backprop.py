@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+from __future__ import division
 import numpy as np
 from sklearn.neural_network import MLPRegressor as MLPR
 
@@ -131,7 +131,31 @@ class Backprop:
     prediction = self.Predict(self.TestInstances)
     print "\nTestResults:\n"
     print prediction
-
+  
+  def calculateTestSetAccuracy(self, testSet):
+    reference = list(["rock", "paper", "scissors"])
+    numberWin = 0
+    numberTie = 0
+    numberLose = 0
+    totalRows = len(testSet)
+    for testInstance in testSet:
+      answer = self.predict(list(testInstance))
+      min_val = min(answer.itervalues())
+      lowest = answer.keys()[answer.values().index(min_val)]
+      toWin = reference[(reference.index(lowest) - 1) % 3]
+      toLose = reference[(reference.index(lowest) + 1) % 3]
+      if(lowest == toWin):
+        numberWin +=1
+      elif(lowest == toLose):
+        numberLose +=1     
+      else:
+        numberTie +=1
+    print "-----------------------------" 
+    print "Backprop Test Set Results:"
+    print "Won "  + str(100 * numberWin / totalRows) + "% of the time"
+    print "Tied " + str(100 * numberTie / totalRows) + "% of the time"
+    print "Lost " + str(100 * numberLose/ totalRows) + "% of the time"
+    print "-----------------------------"
 #UNCOMMENT TO TEST
 #bp = Backprop()
 #bp.Test()
