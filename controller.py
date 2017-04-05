@@ -23,11 +23,10 @@ class Controller():
         instances = []
         for model in models:
             instances = instances + self.get_instances(model)
-        # random.shuffle(instances)
+        random.shuffle(instances)
 
         self.instances = instances
         self.model.train(self.instances)
-        print 'hello'
         #TODO test
         
     def get_single_instance(self, index, opponents_throws, my_throws, my_name):
