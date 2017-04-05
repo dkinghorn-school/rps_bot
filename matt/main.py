@@ -1,6 +1,8 @@
-from naive_bayes import naive_bayes
-from sklearn import datasets
 import numpy as np
+from sklearn import datasets
+
+from naive_bayes import naive_bayes
+
 irisDataset = datasets.load_iris()
 nb = naive_bayes()
 nb.train(irisDataset)

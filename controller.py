@@ -24,6 +24,7 @@ class Controller():
             instances = instances + self.get_instances(model)
         self.instances = instances
         self.model.train(self.instances)
+        #TODO test
         
     def get_single_instance(self, index, opponents_throws, my_throws, my_name):
         """
