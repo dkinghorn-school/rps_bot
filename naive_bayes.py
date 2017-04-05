@@ -7,11 +7,22 @@ class naive_bayes:
     def train(self, instances):
         labels = self.getLabelsAsArray(instances)
         features = self.getFeaturesAsArray(instances)
-        self.model.fit(features, labels);
-    def predict(self, newData):
+        self.model.fit(features, labels)
+    def caclulateTestSetAccuracy(self, testSet):
+        avg = 0
+        labels = self.getLabelsAsArray(testSet)
+        features = self.getFeaturesAsArray(testSet)
+        for x in range(0, len(features)):
+            correctOutput = float(labels[x])
+            arr = np.array(features[x]).reshape(1,-1)
+            predicted = float(self.model.predict(arr))
+            avg = avg + 1 if correctOutput == predicted else avg
 
+        avg = float(avg) / float(len(testSet))
+
+        return avg
+    def predict(self, newData):
         predicted = self.model.predict(newData)
-        # summarize the fit of the model
         print(predicted)
 
     def getLabelsAsArray(self, instances):

@@ -28,17 +28,19 @@ class Controller():
         instances = self.getInstances(instances, testSetPercentage)
         self.instances = instances
         self.model.train(self.instances)
-        #TODO test
+        testSetAccuracy = self.model.caclulateTestSetAccuracy(testSet)
+        print '% of instance set given to set set: ' + str(testSetPercentage)
+        print 'testSetAccuracy: ' + str(testSetAccuracy)
     def getTestSet(self, instances, testPercent):
         test = []
         length = len(instances)
-        min = testPercent * length
+        min = (1 - testPercent) * length
         for x in range (int(min), length):
             test.append(instances[x])
         return test
     def getInstances(self, instances, testPercent):
         length = len(instances)
-        min = testPercent * length
+        min = (1 - testPercent) * length
         for x in range(int(min), length):
             instances.pop()
         return instances
