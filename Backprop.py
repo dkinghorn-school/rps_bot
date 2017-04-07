@@ -103,9 +103,9 @@ class Backprop:
   def train(self, Instances):
     labels = self.getLabelsAsArray(Instances)
     features = self.getFeaturesAsArray(Instances)
-    print type(features)
+    #print type(features)
     newModel = MLPR(
-      hidden_layer_sizes=(np.shape(features)[1]**2,),
+      hidden_layer_sizes=(1000,4),
       activation='identity',
       solver='lbfgs', 
       learning_rate='constant', 
@@ -122,8 +122,8 @@ class Backprop:
 
   def predict(self, instance):
     features = self.getFeaturesAsArray(instance)
+    
     answer = self.model.predict(features[1])
-    print answer
     return {"rock":answer[0,0],"paper":answer[0,1],"scissors":answer[0,2]}
 
   def test(self):
@@ -131,15 +131,46 @@ class Backprop:
     prediction = self.Predict(self.TestInstances)
     print "\nTestResults:\n"
     print prediction
-  
+
+  def convertToGuess(self, p):
+    result = np.zeros(3)
+    a = np.max(p)
+    for x in xrange(0, len(p)):
+      maxIndex = x
+      if p[0,x] == a:
+        break
+    #print maxIndex
+    result[maxIndex] = 1
+    return result
+
   def calculateTestSetAccuracy(self, testSet):
+    avg = 0
+    labels = self.getLabelsAsArray(testSet)
+    #print labels
+    features = self.getFeaturesAsArray(testSet)
+    for x in range(0, len(features)):
+       co = labels[x]
+       pr = self.model.predict(features[x].reshape(1,-1))
+       #print pr
+       pr = self.convertToGuess(pr)
+       if co[0] == pr[0] and co[1] == pr[1] and co[2] == pr[2]:
+         avg = avg + 1
+
+    avg = float(avg) / float(len(testSet))
+    
+    return avg
+
+'''  
+  def calculateTestSetAccuracy(self, testSet):
+    labels = self.getLabelsAsArray(testSet)
+    features = self.getFeaturesAsArray(testSet)
     reference = list(["rock", "paper", "scissors"])
     numberWin = 0
     numberTie = 0
     numberLose = 0
     totalRows = len(testSet)
-    for testInstance in testSet:
-      answer = self.predict(list(testInstance))
+    for feature in features:
+      answer = self.predict(feature)
       min_val = min(answer.itervalues())
       lowest = answer.keys()[answer.values().index(min_val)]
       toWin = reference[(reference.index(lowest) - 1) % 3]
@@ -156,6 +187,9 @@ class Backprop:
     print "Tied " + str(100 * numberTie / totalRows) + "% of the time"
     print "Lost " + str(100 * numberLose/ totalRows) + "% of the time"
     print "-----------------------------"
+'''
+
+
 #UNCOMMENT TO TEST
 #bp = Backprop()
 #bp.Test()

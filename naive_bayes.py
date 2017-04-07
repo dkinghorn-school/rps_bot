@@ -8,7 +8,7 @@ class naive_bayes:
         labels = self.getLabelsAsArray(instances)
         features = self.getFeaturesAsArray(instances)
         self.model.fit(features, labels)
-    def caclulateTestSetAccuracy(self, testSet):
+    def calculateTestSetAccuracy(self, testSet):
         avg = 0
         labels = self.getLabelsAsArray(testSet)
         features = self.getFeaturesAsArray(testSet)

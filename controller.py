@@ -28,7 +28,7 @@ class Controller():
         instances = self.getInstances(instances, testSetPercentage)
         self.instances = instances
         self.model.train(self.instances)
-        testSetAccuracy = self.model.caclulateTestSetAccuracy(testSet)
+        testSetAccuracy = self.model.calculateTestSetAccuracy(testSet)
         print '% of instance set given to set set: ' + str(testSetPercentage)
         print 'testSetAccuracy: ' + str(testSetAccuracy)
     def getTestSet(self, instances, testPercent):
