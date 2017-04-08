@@ -29,9 +29,13 @@ def one_hot(throws):
 
 class SVMBot:
 
-    def __init__(self):
+    def __init__(self, c=0.1, kernel='sigmoid', degree=3, epsilon=1e-3):
         self.classifier = svm.SVC(probability=True,
-                                  decision_function_shape='ovr')
+                                  decision_function_shape='ovr',
+                                  kernel=kernel,
+                                  C=c,
+                                  degree=degree,
+                                  tol=epsilon)
         self.players = []
 
     def train(self, instances):
