@@ -86,3 +86,30 @@ class SVMBot:
         x.append(throws)
         probs = self.classifier.predict_proba(x)
         return {'rock': probs[0][1], 'paper': probs[0][0], 'scissors': probs[0][2]}
+
+    def calculateTestSetAccuracy(self, testset):
+        """
+        Calculate this model's accuracy on a given test set of data
+
+        :type testset: [{'output': str,
+                         'player_name': str,
+                          'previous_throws': {'opponents_throws': [str, ..., str],
+                                              'my_throws: [str, ..., str]
+                                             }}]
+        :rtype: float
+        """
+        correct = 0
+        total = 0
+        for inst in testset:
+            probs = self.predict(inst)
+            if probs['rock'] > probs['paper'] and probs['rock'] > probs['scissors']:
+                if inst['output'] == 'rock':
+                    correct += 1
+            elif probs['paper'] > probs['scissors'] and probs['paper'] > probs['rock']:
+                if inst['output'] == 'paper':
+                    correct += 1
+            else:
+                if inst['output'] == 'scissors':
+                    correct += 1
+            total += 1
+        return float(correct) / float(total)
