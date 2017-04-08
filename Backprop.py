@@ -75,24 +75,17 @@ class Backprop:
   def getFeaturesAsArray(self, instances):
     num_rows = len(instances)
 
-    players = set()
-    for instance in instances:
-      players.add(instance["player_name"])
-    num_players = len(players)
-
-    num_cols = num_players + (4 * len(instances[0]["previous_throws"]["opponents_throws"]))
-    players = list(players)
-    
+    num_cols = self.num_players + (4 * len(instances[0]["previous_throws"]["opponents_throws"]))
     
     rows = np.zeros((num_rows,num_cols))
     
     for rownum in xrange(0,len(instances)):
       instance = instances[rownum]
-      rows[rownum,players.index(instance["player_name"])] = 1
+      rows[rownum,self.players.index(instance["player_name"])] = 1
       past_throws = instance["previous_throws"]["opponents_throws"]
       my_throws = instance["previous_throws"]["my_throws"]
       for i in xrange(0, len(past_throws)):
-        first_index = num_players + 4 * i
+        first_index = self.num_players + 4 * i
         rows[rownum,first_index] = 1 if past_throws[i] == "rock" else 0
         rows[rownum,first_index+1] = 1 if past_throws[i] == "paper" else 0
         rows[rownum,first_index+2] = 1 if past_throws[i] == "scissors" else 0
@@ -100,9 +93,15 @@ class Backprop:
     #print rows
     return rows
 
-  def train(self, Instances):
-    labels = self.getLabelsAsArray(Instances)
-    features = self.getFeaturesAsArray(Instances)
+  def train(self, instances):
+    self.players = set()
+    for instance in instances:
+      self.players.add(instance["player_name"])
+    self.num_players = len(self.players)
+    self.players = list(self.players)
+
+    labels = self.getLabelsAsArray(instances)
+    features = self.getFeaturesAsArray(instances)
     #print type(features)
     newModel = MLPR(
       hidden_layer_sizes=(1000,4),
@@ -114,7 +113,7 @@ class Backprop:
       shuffle=True,  
       random_state=None, 
       tol=0.0001, 
-      verbose=True, 
+      verbose=False,
       warm_start=True)
     newModel.n_outputs_ = np.shape(labels)[1]
     newModel.fit(features, labels)
