@@ -69,3 +69,13 @@ class Controller():
             instances = instances + [self.get_single_instance(last_index, player2_throws, player1_throws, player1_name)]
             last_index = last_index - 1
         return instances
+
+
+    def predict(self, instance):
+        player1_throws = instance['throws']['player1']
+        player2_throws = instance['throws']['player2']
+        player1_name = instance['player1']
+        player2_name = instance['player2']
+        last_index = len(player1_throws) - 1
+        return self.model.predict(self.get_single_instance(last_index, player2_throws, player1_throws, player1_name))
+

@@ -3,8 +3,11 @@ import SocketServer
 import urlparse, json
 from controller import Controller
 from Backprop import Backprop
+from naive_bayes import naive_bayes
+
 
 class S(BaseHTTPRequestHandler):
+
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -19,15 +22,19 @@ class S(BaseHTTPRequestHandler):
         self.end_headers()
         
         data = json.loads(post_body)
+        print (data)
+        if(len(data['throws']['player1']) >5):
+            q = self.model.predict(data)
+        self.wfile.write(json.dumps({"nextThrow":"rock","rock":.7,"paper":.2,"scissors":.1}))
         
-        self.wfile.write(json.dumps({"rock":.7,"paper":.2,"scissors":.1}))
-        
-        
-def run(server_class=HTTPServer, handler_class=S, port=8080):
-    q = Controller(Backprop())
-    q.train()
+
+def run(server_class=HTTPServer, port=3000):
+    model = Controller(naive_bayes())
+    model.train(.1)
     server_address = ('', port)
-    httpd = server_class(server_address, handler_class)
+    handler = S
+    handler.model = model
+    httpd = server_class(server_address, handler)
     print 'Starting httpd...'
     httpd.serve_forever()
 
