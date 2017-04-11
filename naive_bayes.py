@@ -1,14 +1,25 @@
 import numpy as np
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import BernoulliNB
 from sklearn import datasets
+
 class naive_bayes:
     def __init__(self):
-        self.model = GaussianNB()
+        self.model = BernoulliNB(alpha=0.0)
+
     def train(self, instances):
+        self.players = set()
+        for instance in instances:
+            self.players.add(instance["player_name"])
+        self.num_players = len(self.players)
+        self.players = list(self.players)
+        # print(len(instances))
+
         labels = self.getLabelsAsArray(instances)
         features = self.getFeaturesAsArray(instances)
         self.model.fit(features, labels)
+
     def calculateTestSetAccuracy(self, testSet):
+        # print(len(testSet))
         avg = 0
         labels = self.getLabelsAsArray(testSet)
         features = self.getFeaturesAsArray(testSet)
@@ -21,9 +32,11 @@ class naive_bayes:
         avg = float(avg) / float(len(testSet))
 
         return avg
+
     def predict(self, newData):
-        predicted = self.model.predict(newData)
-        print(predicted)
+        features = self.getFeaturesAsArray(newData)
+        answer = self.model.predict_proba(features)
+        return {"rock":answer[0,0],"paper":answer[0,1],"scissors":answer[0,2]}
 
     def getLabelsAsArray(self, instances):
         labels = np.zeros((len(instances)))
@@ -42,23 +55,17 @@ class naive_bayes:
     def getFeaturesAsArray(self, instances):
         num_rows = len(instances)
 
-        players = set()
-        for instance in instances:
-            players.add(instance["player_name"])
-        num_players = len(players)
-
-        num_cols = num_players + (4 * len(instances[0]["previous_throws"]["opponents_throws"]))
-        players = list(players)
+        num_cols = self.num_players + (4 * len(instances[0]["previous_throws"]["opponents_throws"]))
 
         rows = np.zeros((num_rows, num_cols))
 
         for rownum in xrange(0, len(instances)):
             instance = instances[rownum]
-            rows[rownum, players.index(instance["player_name"])] = 1
+            rows[rownum, self.players.index(instance["player_name"])] = 1
             past_throws = instance["previous_throws"]["opponents_throws"]
             my_throws = instance["previous_throws"]["my_throws"]
             for i in xrange(0, len(past_throws)):
-                first_index = num_players + 4 * i
+                first_index = self.num_players + 4 * i
                 rows[rownum, first_index] = 1 if past_throws[i] == "rock" else 0
                 rows[rownum, first_index + 1] = 1 if past_throws[i] == "paper" else 0
                 rows[rownum, first_index + 2] = 1 if past_throws[i] == "scissors" else 0

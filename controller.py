@@ -6,8 +6,8 @@ import random
 class Controller():
     def __init__(self, model, history_length=5):
         self.model = model
-        self.history_length = 5
-        print('starting classifier')
+        self.history_length = 15
+        # print('starting classifier')
 
     def train(self, testSetPercentage, file_name=None):
         path = 'data'
@@ -29,8 +29,10 @@ class Controller():
         self.instances = instances
         self.model.train(self.instances)
         testSetAccuracy = self.model.calculateTestSetAccuracy(testSet)
-        print '% of instance set given to set set: ' + str(testSetPercentage)
-        print 'testSetAccuracy: ' + str(testSetAccuracy)
+        # print '% of instance set given to set set: ' + str(testSetPercentage)
+        # print 'testSetAccuracy: ' + str(testSetAccuracy)
+        return testSetAccuracy
+
     def getTestSet(self, instances, testPercent):
         test = []
         length = len(instances)
@@ -38,12 +40,14 @@ class Controller():
         for x in range (int(min), length):
             test.append(instances[x])
         return test
+
     def getInstances(self, instances, testPercent):
         length = len(instances)
         min = (1 - testPercent) * length
         for x in range(int(min), length):
             instances.pop()
         return instances
+
     def get_single_instance(self, index, opponents_throws, my_throws, my_name):
         """
         index is the point of the last turn thrown, the output will be at one greater than the index

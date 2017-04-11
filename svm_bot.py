@@ -23,19 +23,27 @@ def one_hot(throws):
     one_hot_arr = []
     for throw in throws:
         one_hot_arr.extend(convert_throw(throw[0]))
-        one_hot_arr.extend(convert_throw(throw[1]))
+        if throw[0] == 'rock' and throw[1] == 'scissors' or\
+           throw[0] == 'paper' and throw[1] == 'rock' or\
+           throw[0] == 'scissors' and throw[1] == 'paper':
+            one_hot_arr.append(1)
+        else:
+            one_hot_arr.append(0)
+#        one_hot_arr.extend(convert_throw(throw[1]))
     return one_hot_arr
 
 
 class SVMBot:
 
-    def __init__(self, c=0.1, kernel='sigmoid', degree=3, epsilon=1e-3):
+    def __init__(self, c=0.1, kernel='sigmoid', degree=3, tol=1e-3):
         self.classifier = svm.SVC(probability=True,
                                   decision_function_shape='ovr',
                                   kernel=kernel,
                                   C=c,
                                   degree=degree,
-                                  tol=epsilon)
+                                  tol=tol)
+        # self.classifier = svm.SVC(probability=True,
+        #                           decision_function_shape='ovr')
         self.players = []
 
     def train(self, instances):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from __future__ import division
 import numpy as np
-from sklearn.neural_network import MLPRegressor as MLPR
+from sklearn.neural_network import MLPRegressor as MLPR, MLPClassifier as MLPC
 
 # Data should be (Who,(R, P, S, Win?)*6)
 
@@ -104,17 +104,18 @@ class Backprop:
     features = self.getFeaturesAsArray(instances)
     #print type(features)
     newModel = MLPR(
-      hidden_layer_sizes=(1000,4),
+      hidden_layer_sizes=(800, 4),
       activation='identity',
-      solver='lbfgs', 
-      learning_rate='constant', 
+      solver='lbfgs',
+      learning_rate='constant',
       learning_rate_init=self.learningRate,
-      max_iter=200, 
-      shuffle=True,  
-      random_state=None, 
-      tol=0.0001, 
+      max_iter=200,
+      shuffle=True,
+      random_state=None,
+      tol=0.0001,
       verbose=False,
       warm_start=True)
+    # newModel = MLPR()
     newModel.n_outputs_ = np.shape(labels)[1]
     newModel.fit(features, labels)
     self.model = newModel
@@ -122,7 +123,7 @@ class Backprop:
   def predict(self, instance):
     features = self.getFeaturesAsArray(instance)
     
-    answer = self.model.predict(features[1])
+    answer = self.model.predict(features[0].reshape(1,-1))
     return {"rock":answer[0,0],"paper":answer[0,1],"scissors":answer[0,2]}
 
   def test(self):
